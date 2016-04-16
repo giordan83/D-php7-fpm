@@ -9,6 +9,7 @@ MAINTAINER Gabriele Giuranno <gabrielegiuranno@gmail.com>
 
 # Set environment variables.
 ENV FILES conf/
+ENV TERM xterm-256color
 
 RUN echo "deb http://packages.dotdeb.org jessie all" > /etc/apt/sources.list.d/dotdeb.list \
     && curl -sS https://www.dotdeb.org/dotdeb.gpg | apt-key add -
