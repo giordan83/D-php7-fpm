@@ -2,14 +2,19 @@
 
 #install composer
 
-php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
+EXPECTED_SIGNATURE=$(wget https://composer.github.io/installer.sig -O - -q)
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+ACTUAL_SIGNATURE=$(php -r "echo hash_file('SHA384', 'composer-setup.php');")
 
-checksum=`curl -s https://composer.github.io/pubkeys.html | grep \<pre\> | sed 's/<[\/]*pre>//g'`
-
-php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === '$checksum') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); }"
-
-php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-
-php -r "unlink('composer-setup.php');"
+if [ "$EXPECTED_SIGNATURE" = "$ACTUAL_SIGNATURE" ]
+then
+    php composer-setup.php --quiet --install-dir=/usr/local/bin --filename=composer
+    RESULT=$?
+    rm composer-setup.php
+else
+    >&2 echo 'ERROR: Invalid installer signature'
+    rm composer-setup.php
+    exit 1
+fi
 
 exec /usr/sbin/php-fpm7.0 --nodaemonize

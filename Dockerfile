@@ -40,7 +40,6 @@ ADD ${FILES}php-app.pool.conf /etc/php/7.0/fpm/pool.d/
 RUN rm -rf /etc/php/7.0/fpm/pool.d/www.conf
 RUN usermod -u 1000 www-data
 
-RUN mkdir /run/php
 
 ADD start.sh /start.sh
 
