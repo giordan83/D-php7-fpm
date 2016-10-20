@@ -41,10 +41,10 @@ RUN rm -rf /etc/php/7.0/fpm/pool.d/www.conf
 RUN usermod -u 1000 www-data
 
 
-ADD start.sh /start.sh
+ADD start.sh /usr/local/bin/start.sh
 
 # Configure executable to start php5-fpm.
-CMD ["/start.sh"]
+CMD ["start.sh"]
 
 
 # Expose ports.
