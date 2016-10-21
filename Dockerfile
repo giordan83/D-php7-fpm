@@ -28,7 +28,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
     php7.0-readline \
     php7.0-intl \
     php7.0-gd \
-    php7.0-mysql
+    php7.0-mysql \
+    php7.0-xml
 
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
